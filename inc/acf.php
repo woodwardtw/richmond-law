@@ -11,13 +11,35 @@ defined( 'ABSPATH' ) || exit;
 
 //case acf functions
 
+function ur_law_url_maker($url, $text){
+	if($url != ''){
+		return "<a href='{$url}'>{$text}</a>";
+	} else {
+		return $text;
+	}
+}
+
 function ur_law_basics_table(){
 	$record = get_field('record_number');
+	
 	$op_below = get_field('op_below');
+	$op_below_url = get_field('op_below_url');
+	$op = ur_law_url_maker($op_below_url, $op_below);
+	
 	$argument = get_field('argument');
+	$argument_url = get_field('argument_url');
+	$arg = ur_law_url_maker($argument_url, $argument);
+	
 	$opinion = get_field('opinion');
+	$opinion_url = get_field('opinion_url');
+	$opine = ur_law_url_maker($opinion_url, $opinion);
+
 	$author = get_field('author');
-	$term = get_field('term');
+	
+	$term_obj = get_field('term');
+	$term_name = $term_obj->name;
+	$term_url = get_term_link($term_obj);
+	$term = ur_law_url_maker($term_url, $term_name);
 
 	return "
 		<table class='case-details'>
@@ -34,9 +56,9 @@ function ur_law_basics_table(){
 			<tbody>
 				<tr>
 					<td>{$record}</td>
-					<td>{$op_below}</td>
-					<td>{$argument}</td>
-					<td>{$opinion}</td>
+					<td>{$op}</td>
+					<td>{$arg}</td>
+					<td>{$opine}</td>
 					<td>{$author}</td>
 					<td>{$term}</td>
 				</tr>
@@ -58,6 +80,29 @@ function ur_law_basic_html($obj,$h_level){
 	    // if($obj == "procedural_postures" && !str_contains($basic,";")){
 
 	    // }
+	    $slug = sanitize_title($basic_label);
+	    return "<div class='section' id='{$slug}'>
+	    		<{$h_level} id='{$slug}-label'>{$basic_label}</{$h_level}>
+	            {$basic}
+	            </div>";   
+	}	
+}
+
+function ur_law_holding($obj,$h_level){
+	$status = get_field('status')->name;
+	$basic_label = "Holding";
+	if($status == 'Pending'){
+	    	$basic_label = "Issue";
+	    } 
+	if(isset(get_field_object($obj)['value'])){
+		$basic_obj = get_field_object($obj);
+	    $basic = $basic_obj['value'];   
+	    //puts p tags for text fields
+	    if(substr($basic,0,3) != "<p>"){
+	    	$basic = "<p>{$basic}</p>";
+	    } 
+	    
+	    
 	    $slug = sanitize_title($basic_label);
 	    return "<div class='section' id='{$slug}'>
 	    		<{$h_level} id='{$slug}-label'>{$basic_label}</{$h_level}>

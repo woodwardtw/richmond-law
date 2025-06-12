@@ -12,7 +12,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "25",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -24,6 +24,32 @@
             "step": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_67f81629abfab",
+            "label": "Status",
+            "name": "status",
+            "aria-label": "",
+            "type": "taxonomy",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "status",
+            "add_term": 1,
+            "save_terms": 1,
+            "load_terms": 0,
+            "return_format": "object",
+            "field_type": "select",
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "bidirectional": 0,
+            "multiple": 0,
+            "bidirectional_target": []
         },
         {
             "key": "field_68409d8c458ba",
@@ -39,10 +65,28 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
-            "return_format": "d\/m\/Y",
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
             "first_day": 1,
             "allow_in_bindings": 0
+        },
+        {
+            "key": "field_684b0969291af",
+            "label": "Opinion Below URL",
+            "name": "op_below_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 0,
+            "placeholder": ""
         },
         {
             "key": "field_68409dac458bb",
@@ -58,10 +102,28 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
-            "return_format": "d\/m\/Y",
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
             "first_day": 1,
             "allow_in_bindings": 0
+        },
+        {
+            "key": "field_684b0a08eee05",
+            "label": "Argument URL",
+            "name": "argument_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 0,
+            "placeholder": ""
         },
         {
             "key": "field_68409dc6458bc",
@@ -77,10 +139,28 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
-            "return_format": "d\/m\/Y",
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
             "first_day": 1,
             "allow_in_bindings": 0
+        },
+        {
+            "key": "field_684b0a1feee06",
+            "label": "Opinion URL",
+            "name": "opinion_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 0,
+            "placeholder": ""
         },
         {
             "key": "field_68409de8458bd",
@@ -121,7 +201,7 @@
             "add_term": 1,
             "save_terms": 1,
             "load_terms": 0,
-            "return_format": "id",
+            "return_format": "object",
             "field_type": "select",
             "allow_null": 0,
             "allow_in_bindings": 0,
@@ -131,7 +211,7 @@
         },
         {
             "key": "field_6813bd5df583f",
-            "label": "Holding",
+            "label": "Holding or Issue",
             "name": "holding",
             "aria-label": "",
             "type": "wysiwyg",
@@ -382,32 +462,6 @@
             "max_size": "",
             "mime_types": "",
             "allow_in_bindings": 0
-        },
-        {
-            "key": "field_67f81629abfab",
-            "label": "Status",
-            "name": "status",
-            "aria-label": "",
-            "type": "taxonomy",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "25",
-                "class": "",
-                "id": ""
-            },
-            "taxonomy": "status",
-            "add_term": 1,
-            "save_terms": 0,
-            "load_terms": 0,
-            "return_format": "id",
-            "field_type": "checkbox",
-            "allow_in_bindings": 0,
-            "bidirectional": 0,
-            "multiple": 0,
-            "allow_null": 0,
-            "bidirectional_target": []
         }
     ],
     "location": [
@@ -431,5 +485,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1749152300
+    "modified": 1749751682
 }
