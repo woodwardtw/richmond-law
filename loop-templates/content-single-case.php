@@ -30,7 +30,6 @@ defined( 'ABSPATH' ) || exit;
 			echo ur_law_basics_table();
 			echo url_law_case_citation();		
 			echo ur_law_holding('holding', 'h2');
-			echo ur_law_basic_html('procedural_postures', 'h3');
 			echo ur_law_briefs_repeater();
 			echo ur_law_coverage_repeater();	
 			echo ur_law_audio();	

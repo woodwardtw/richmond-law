@@ -28,6 +28,7 @@ $understrap_includes = array(
 	'/acf.php',                          // Load ACF functions.
 	'/custom-data.php',                          // Load custom post types and taxonomies.
 	'/block-editor.php',                    // Load Block Editor functions.
+	'/importer.php',                    //importer stuff
 	'/deprecated.php',                      // Load deprecated functions.
 );
 
