@@ -176,10 +176,6 @@ article {
 	padding: 0 40px;
 }
 
-a.navbar-brand {
-	max-width: 100%;
-	word-break: break-all;
-}
 
 .site-footer {
 	background-color: $darkgray;
@@ -209,6 +205,10 @@ a.navbar-brand {
 .case-details thead {
 	border-top: 1px solid #efefef;
 	border-bottom: 1px solid #efefef;
+}
+
+#wrapper-footer .container-fluid{
+	padding: 0;
 }
 
 @media only screen and (max-width: 800px) 

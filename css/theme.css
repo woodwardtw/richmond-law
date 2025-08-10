@@ -15535,11 +15535,6 @@ article {
   padding: 0 40px;
 }
 
-a.navbar-brand {
-  max-width: 100%;
-  word-break: break-all;
-}
-
 .site-footer {
   background-color: #262525;
   height: 300px;
@@ -15563,6 +15558,10 @@ a.navbar-brand {
 .case-details thead {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
+}
+
+#wrapper-footer .container-fluid, #wrapper-footer .container-sm, #wrapper-footer .container-md, #wrapper-footer .container-lg, #wrapper-footer .container-xl, #wrapper-footer .container-xxl {
+  padding: 0;
 }
 
 @media only screen and (max-width: 800px) {

@@ -51,7 +51,7 @@ function create_case_cpt() {
     'labels' => $labels,
     'menu_icon' => '',
     'supports' => array('title', 'editor', 'revisions', 'author', 'trackbacks', 'custom-fields', 'thumbnail',),
-    'taxonomies' => array('category', 'post_tag'),
+    'taxonomies' => array('category', 'post_tag', 'case_terms', 'status'),
     'public' => true,
     'show_ui' => true,
     'show_in_menu' => true,
@@ -65,15 +65,23 @@ function create_case_cpt() {
     'show_in_rest' => true,
     'publicly_queryable' => true,
     'capability_type' => 'post',
-    'menu_icon' => 'dashicons-universal-access-alt',
+    'menu_icon' => 'dashicons-welcome-learn-more',
   );
   register_post_type( 'case', $args );
   
-  // flush rewrite rules because we changed the permalink structure
-  global $wp_rewrite;
-  $wp_rewrite->flush_rules();
 }
 add_action( 'init', 'create_case_cpt', 0 );
+
+// Flush once on activation (plugin) or after theme switch:
+register_activation_hook(__FILE__, function () {
+    create_case_cpt();
+    flush_rewrite_rules();
+});
+// If this lives in a theme, use:
+add_action('after_switch_theme', function () {
+    create_case_cpt();
+    flush_rewrite_rules();
+});
 
 add_action( 'init', 'create_status_taxonomies', 0 );
 function create_status_taxonomies()
@@ -164,3 +172,34 @@ add_action('admin_notices', function() {
     }
 });
 
+
+/**
+ * add 'case' post type to all archives
+ */
+add_action('pre_get_posts', function (WP_Query $query) {
+    // Front-end main archive queries only
+    if (is_admin() || !$query->is_main_query() || !$query->is_archive()) {
+        return;
+    }
+
+    // Don't override the 'case' archive itself
+    if ($query->is_post_type_archive('case')) {
+        return;
+    }
+
+    // Respect queries that already explicitly set post_type to something non-default
+    $pt = $query->get('post_type');
+
+    if (empty($pt)) {
+        // Default archive queries look only for 'post'
+        $query->set('post_type', ['post', 'case']);
+        return;
+    }
+
+    // Normalize to array and add 'case'
+    $pt = (array) $pt;
+    $pt[] = 'case';
+    $pt = array_values(array_unique($pt));
+
+    $query->set('post_type', $pt);
+});

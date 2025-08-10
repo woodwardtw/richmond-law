@@ -113,13 +113,22 @@ function ur_law_holding($obj,$h_level){
 
 
 function url_law_case_citation(){
+	$title = get_the_title();
 	$citation = get_field("case_citation");
 	$url = get_field("case_url");
-	return "
+	$term = substr(get_field('term')->name, -4);
+	if($url == ''){
+		return "
 		<div id='citation'>
-			<p>Citation: <a href='{$url}'>{$citation}</a></p>
-		</div>
-	";
+			<p>Citations: {$citation}</p>
+		</div>";
+	} else {
+		return "
+			<div id='citation'>
+				<p>Citation: <a href='{$url}'> {$citation}</a></p>
+			</div>
+		";
+	}
 
 }
 
@@ -178,12 +187,14 @@ function ur_law_coverage_repeater(){
 
 function ur_law_audio(){
 	$audio = get_field("audio_recording");
-	$html = "<figure>
+	if($audio){
+		$html = "<figure>
 			  <figcaption>Listen to the case:</figcaption>
 			  <audio controls src='{$audio}'></audio>
 			  <a href='{$audio}'> Download audio </a>
 			</figure>";
 	return $html;
+	}	
 }
 
 
