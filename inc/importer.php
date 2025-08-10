@@ -52,7 +52,9 @@ if ($file !== FALSE) {
 	        update_field("field_6813bd5df583f", $holding, $post_id);//Holding
 	        update_field("field_6841b48acd6b8", $case_term_id, $post_id); //Case term
 			update_field("field_67f81629abfab", $status_term_id, $post_id); //status
-			update_field("field_6813becaf5842", $citation, $post_id); //status     
+			update_field("field_6813becaf5842", $citation, $post_id); //citation
+			update_field("field_68409de8458bd", $author, $post_id); //author/jucge     
+			wp_set_object_terms($post_id, 'Decided', 'status'); //set status term    
 			$html .= "<tr><td>{$title}</td><td>{$record_number}</td><td>{$author}</td><td>{$year}</td><td>{$citation}</td></tr>";
 	        
 	    }
@@ -165,5 +167,5 @@ function order_citations(array $citations): array {
 
 function format_citations_line(string|array $input): string {
     $list = order_citations(normalize_citations($input));
-    return 'Citations: ' . implode(', ', $list);
+    return implode(', ', $list);
 }

@@ -42,7 +42,7 @@
             "taxonomy": "status",
             "add_term": 1,
             "save_terms": 1,
-            "load_terms": 0,
+            "load_terms": 1,
             "return_format": "object",
             "field_type": "select",
             "allow_null": 0,
@@ -485,5 +485,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1754394176
+    "modified": 1754834097
 }
