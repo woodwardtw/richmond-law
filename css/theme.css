@@ -15520,6 +15520,10 @@ article {
   color: #fff;
 }
 
+#main-menu li {
+  margin: 0 10px;
+}
+
 .btn-secondary {
   background-color: #122851;
   border: none;
@@ -15528,6 +15532,20 @@ article {
   font-size: 1rem;
   padding: 10px 20px;
   border-radius: 100px;
+}
+
+/*right sidebar*/
+#right-sidebar ol, #right-sidebar ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+#right-sidebar article {
+  padding: 10px;
+}
+
+#right-sidebar h2, #right-sidebar .h2 {
+  margin-bottom: 10px;
 }
 
 .wrapper {
