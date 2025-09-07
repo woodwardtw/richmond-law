@@ -29,19 +29,20 @@ if ($file !== FALSE) {
    $html = '<table>';
    while (($data = fgetcsv($file)) !== FALSE) {
 	        
-	        $title = ur_law_title_extract($data);//full case name
-			//$slug = $data[6];
-			$holding = $data[22];
-	        $record_number = $data[29];
-			$author = ur_law_judge_extract($data[42]);//
-	        $date = $data[10];
-	        $year = substr($date, 0, 4);
-			$citation = format_citations_line($data[46]);		
-	        $case_term_id = ur_law_case_term("term-". $year, "case_terms");
-	        $status = 'active';
-	        $status_term_id = ur_law_case_term($status, "status");
-	        $holding = $data[21];
-	        //var_dump( "data[3] = {$title}, author ={$author} </br>");
+            $title = ur_law_title_extract($data);//full case name
+            //$slug = $data[6];
+            $holding = $data[22];
+            $record_number = $data[29];
+            $author = ur_law_judge_extract($data[42]);//
+            $date = $data[10];
+            $listener_url = $data[76]; // url for opinion
+            $year = substr($date, 0, 4);
+            $citation = format_citations_line($title, $data[46], $year); //citations);
+            $case_term_id = ur_law_case_term("term-". $year, "case_terms");
+            $status = 'active';
+            $status_term_id = ur_law_case_term($status, "status");
+            $holding = $data[21];            
+        
 	        $args = array(
 				'post_title'    => wp_strip_all_tags( $title ),
 				'post_status'   => 'draft',
@@ -53,9 +54,12 @@ if ($file !== FALSE) {
 	        update_field("field_6841b48acd6b8", $case_term_id, $post_id); //Case term
 			update_field("field_67f81629abfab", $status_term_id, $post_id); //status
 			update_field("field_6813becaf5842", $citation, $post_id); //citation
-			update_field("field_68409de8458bd", $author, $post_id); //author/jucge     
+			update_field("field_68409de8458bd", $author, $post_id); //author/judge
+            update_field("field_68409dc6458bc", $date, $post_id); //opinion date
+            update_field("field_684b0a1feee06", $listener_url, $post_id); //opinion url
+            update_field("field_6813bee1f5843", $listener_url, $post_id); //access url
 			wp_set_object_terms($post_id, 'Decided', 'status'); //set status term    
-			$html .= "<tr><td>{$title}</td><td>{$record_number}</td><td>{$author}</td><td>{$year}</td><td>{$citation}</td></tr>";
+            $html .= "<tr><td>{$title}</td><td>{$date}</td><td>{$citation}</td><td>{$listener_url}</td></tr>";
 	        
 	    }
 		return $html . "</table>";
@@ -165,7 +169,52 @@ function order_citations(array $citations): array {
     return $bucketed;
 }
 
-function format_citations_line(string|array $input): string {
-    $list = order_citations(normalize_citations($input));
-    return implode(', ', $list);
+
+/**
+ * Format the case citation line as: Short case name, citation(s) (year).
+ * Optionally, make the case name a link to the courtlistener_url if provided.
+ *
+ * @param string $case_name
+ * @param string|array $citations
+ * @param string|int $decision_year
+ * @param string|null $courtlistener_url
+ * @return string
+ */
+function format_citations_line($case_name, $citations, $decision_year): string {
+    $list = order_citations(normalize_citations($citations));
+    $citations_str = implode(', ', $list);
+    $year = $decision_year;
+    // Only keep 4 digits if year is longer
+    if (preg_match('/\d{4}/', (string)$year, $matches)) {
+        $year = $matches[0];
+    }
+    // Shorten case name if possible (remove extra whitespace)
+    $short_name = trim(preg_replace('/\s+/', ' ', $case_name));
+   
+    $short_name = esc_html($short_name);
+    
+    $out = $short_name;
+    if ($citations_str !== '') {
+        $out .= ', ' . $citations_str;
+    }
+    if ($year !== '') {
+        $out .= ' (' . $year . ')';
+    }
+    $out .= '.';
+    return $out;
 }
+
+
+function delete_all_cases() {
+    $args = array(
+        'post_type' => 'case',
+        'post_status' => 'any',
+        'numberposts' => -1
+    );
+    $all_cases = get_posts($args);
+    foreach ($all_cases as $case) {
+        wp_delete_post($case->ID, true); // true for force delete
+    }
+}
+
+//delete_all_cases();

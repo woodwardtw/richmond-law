@@ -13,16 +13,14 @@ if ( ! has_custom_logo() ) { ?>
 
 	<?php if ( is_front_page() && is_home() ) : ?>
 
-		<h1 class="navbar-brand mb-0">
-			<a rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
-				<?php bloginfo( 'name' ); ?>				
-			</a>
-		</h1>
+		<a rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
+			<img src="<?php echo get_template_directory_uri(); ?>/imgs/vv-logo-white.svg" class="img-fluid" id="header-logo" alt="<?php bloginfo( 'name' ); ?>"/>
+		</a>
 
 	<?php else : ?>
 
-		<a class="navbar-brand" rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
-			<?php bloginfo( 'name' ); ?>
+		<a rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
+			<img src="<?php echo get_template_directory_uri(); ?>/imgs/vv-logo-white.svg" class="img-fluid"  id="header-logo" alt="<?php bloginfo( 'name' ); ?>"/>
 		</a>
 		<div class="tagline">
 			<?php bloginfo( 'description' ); ?>
