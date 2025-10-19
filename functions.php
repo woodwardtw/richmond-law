@@ -51,10 +51,3 @@ foreach ( $understrap_includes as $file ) {
 add_filter('get_the_archive_title', function($title) {
     return preg_replace('/term-/', '', $title);
 });
-
-add_filter('facetwp_index_row', function($params) {
-    if ($params['facet_source'] === 'tax/case_terms') {
-        $params['facet_display_value'] = preg_replace('/^term-/', '', $params['facet_display_value']);
-    }
-    return $params;
-}, 10, 1);
