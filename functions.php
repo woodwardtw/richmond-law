@@ -46,3 +46,15 @@ if ( class_exists( 'Jetpack' ) ) {
 foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
+
+//Deal with term names that have "term-" prefix
+add_filter('get_the_archive_title', function($title) {
+    return preg_replace('/term-/', '', $title);
+});
+
+add_filter('facetwp_index_row', function($params) {
+    if ($params['facet_source'] === 'tax/case_terms') {
+        $params['facet_display_value'] = preg_replace('/^term-/', '', $params['facet_display_value']);
+    }
+    return $params;
+}, 10, 1);

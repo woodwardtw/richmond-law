@@ -23,7 +23,7 @@ if ( ! function_exists( 'understrap_posted_on' ) ) {
 		$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
 		if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-			$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s"> (%4$s) </time>';
+			$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><span class="updated-label"> <br>(Updated:</span> <time class="updated" datetime="%3$s">%4$s</time>)';
 		}
 
 		$time_string = sprintf(
@@ -37,7 +37,7 @@ if ( ! function_exists( 'understrap_posted_on' ) ) {
 		$posted_on = apply_filters(
 			'understrap_posted_on',
 			sprintf(
-				'<span class="posted-on">%1$s <a href="%2$s" rel="bookmark">%3$s</a></span>',
+				'<span class="posted-on">%1$s <a href="%2$s" rel="bookmark"> %3$s</a></span>',
 				esc_html_x( 'Posted on', 'post date', 'understrap' ),
 				esc_url( get_permalink() ), // @phpstan-ignore-line -- post exists
 				apply_filters( 'understrap_posted_on_time', $time_string )

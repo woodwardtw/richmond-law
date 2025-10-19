@@ -37,9 +37,10 @@ function ur_law_basics_table(){
 	$author = get_field('author');
 	
 	$term_obj = get_field('term');
-	$term_name = $term_obj->name;
+	$term_name = preg_replace('/^term-/', '', $term_obj->name);
 	$term_url = get_term_link($term_obj);
 	$term = ur_law_url_maker($term_url, $term_name);
+	//preg_replace('/^term-/', '', $term->slug)
 
 	return "
 		<table class='case-details'>
@@ -187,11 +188,17 @@ function ur_law_coverage_repeater(){
 
 function ur_law_audio(){
 	$audio = get_field("audio_recording");
+	$argument_date = get_field("argument");
 	if($audio){
-		$html = "<figure>
-			  <figcaption>Listen to the case:</figcaption>
+		$html = "
+			<h2>Oral Argument</h2>
+			<p>Argument Date: {$argument_date}</p>
+			<figure>
+			  <figcaption>Listen to the Supreme Court Oral Argument</figcaption>
 			  <audio controls src='{$audio}'></audio>
-			  <a href='{$audio}'> Download audio </a>
+			  <div><a href='{$audio}'> Download audio </a></div>
+			  <div class='caution'>The Supreme Court of Virginia does not provide transcripts of oral arguments.  
+			  Files included in Virginia Verdicts come from the publicly-available official court website.</div>
 			</figure>";
 	return $html;
 	}	
@@ -230,3 +237,4 @@ function ur_law_json_load_point( $paths ) {
     return $paths;
     
 }
+
