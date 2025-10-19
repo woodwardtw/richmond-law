@@ -29,7 +29,9 @@ function ur_law_basics_table(){
 	$argument = get_field('argument');
 	$argument_url = get_field('argument_url');
 	$arg = ur_law_url_maker($argument_url, $argument);
-	
+	if(get_field('audio_recording')){
+		$arg = "<a href='#oral-argument'>{$arg}</a>";
+	}
 	$opinion = get_field('opinion');
 	$opinion_url = get_field('opinion_url');
 	$opine = ur_law_url_maker($opinion_url, $opinion);
@@ -191,7 +193,7 @@ function ur_law_audio(){
 	$argument_date = get_field("argument");
 	if($audio){
 		$html = "
-			<h2>Oral Argument</h2>
+			<h2 id='oral-argument'>Oral Argument</h2>
 			<p>Argument Date: {$argument_date}</p>
 			<figure>
 			  <figcaption>Listen to the Supreme Court Oral Argument</figcaption>
