@@ -255,6 +255,79 @@ article {
 	padding: 0;
 }
 
+/*cases*/
+.cases-table {
+    margin-top: 20px;
+}
+
+.cases-table th {
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+    padding: 12px;
+}
+
+.cases-table td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.cases-pagination ul.page-numbers {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 5px;
+}
+
+.cases-pagination .page-numbers li {
+    display: inline-block;
+}
+
+.cases-pagination .page-numbers a,
+.cases-pagination .page-numbers span {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    display: block;
+}
+
+.cases-pagination .page-numbers .current {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+.cases-pagination .page-numbers a:hover {
+    background-color: #f5f5f5;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #000;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
 @media only screen and (max-width: 800px) 
  {
  	article {
