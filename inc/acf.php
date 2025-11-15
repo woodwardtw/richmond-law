@@ -58,12 +58,12 @@ function ur_law_basics_table(){
 			</thead>
 			<tbody>
 				<tr>
-					<td>{$record}</td>
-					<td>{$op}</td>
-					<td>{$arg}</td>
-					<td>{$opine}</td>
-					<td>{$author}</td>
-					<td>{$term}</td>
+					<td data-label='Record No.'>{$record}</td>
+					<td data-label='Op. Below'>{$op}</td>
+					<td data-label='Argument'>{$arg}</td>
+					<td data-label='Opinion'>{$opine}</td>
+					<td data-label='Author'>{$author}</td>
+					<td data-label='Term'>{$term}</td>
 				</tr>
 			</tbody>
 		</table>

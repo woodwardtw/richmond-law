@@ -15599,6 +15599,18 @@ article {
   width: 100%;
 }
 
+.case-details a {
+  color: #122851;
+  text-decoration: none;
+  border-bottom: dotted 1px;
+  transition: all 0.3s ease;
+  padding: 3px 6px;
+}
+
+.case-details a:hover {
+  background-color: #f0f8ff;
+}
+
 .case-details thead {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -15688,6 +15700,55 @@ article {
   .section {
     margin: 35px 0;
     padding: 20px;
+  }
+}
+/* Refined CSS to fix overlap and alignment issues */
+@media screen and (max-width: 600px) {
+  .case-details {
+    /* Ensure it's treated as a block for full width */
+    display: block;
+    width: 100%;
+  }
+  .case-details thead {
+    /* Hide the header as intended */
+    display: none;
+  }
+  .case-details tr {
+    /* Rows become cards */
+    display: block;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+  }
+  .case-details tbody {
+    display: block;
+    width: 100%;
+  }
+  .case-details td {
+    /* Display cells as flex items */
+    display: flex;
+    /* Align items to the start of the cross-axis (vertically align top) */
+    align-items: flex-start;
+    /* The key change: Space between label (pseudo-element) and content */
+    justify-content: space-between;
+    text-align: right;
+    padding: 0.5em 10px; /* Adjust padding for better look */
+    border-bottom: 1px solid #eee;
+  }
+  .case-details td::before {
+    /* Style the label (from data-label attribute) */
+    content: attr(data-label);
+    /* Remove absolute positioning. Now, 'before' is a true flex item. */
+    /* If the label is long, it will wrap within its space. */
+    /* Use a fixed percentage width for the label */
+    width: 45%;
+    /* Align the label text left */
+    text-align: left;
+    font-weight: bold;
+    color: #333; /* Use a darker color for the label */
+  }
+  /* Optional: Remove bottom border from the last cell in a 'card' */
+  .case-details tr td:last-child {
+    border-bottom: 0;
   }
 }
 
