@@ -41,8 +41,38 @@ if ($file !== FALSE) {
             $case_term_id = ur_law_case_term("term-". $year, "case_terms");
             $status = 'active';
             $status_term_id = ur_law_case_term($status, "status");
-            $holding = $data[21];            
-        
+            $holding = $data[21];
+
+            // Check for duplicates: same year and record number
+            $duplicate_args = array(
+                'post_type' => 'case',
+                'post_status' => 'any',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    array(
+                        'key' => 'record_number',
+                        'value' => $record_number,
+                        'compare' => '='
+                    )
+                ),
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'case_terms',
+                        'field' => 'slug',
+                        'terms' => 'term-' . $year
+                    )
+                )
+            );
+            $duplicate_check = new WP_Query($duplicate_args);
+
+            if ($duplicate_check->have_posts()) {
+                // Duplicate found - skip this record
+                $html .= "<tr style='background-color: #ffcccc;'><td>{$title}</td><td>{$date}</td><td colspan='2'>SKIPPED - Duplicate (Year: {$year}, Record: {$record_number})</td></tr>";
+                wp_reset_postdata();
+                continue;
+            }
+            wp_reset_postdata();
+
 	        $args = array(
 				'post_title'    => wp_strip_all_tags( $title ),
 				'post_status'   => 'draft',

@@ -254,9 +254,11 @@ if (!empty($search_query)) {
                                     ));
                                     if (!empty($terms) && !is_wp_error($terms)) :
                                         foreach ($terms as $term) :
+                                            // Remove "term-" prefix from display name
+                                            $display_name = preg_replace('/^term-/i', '', $term->name);
                                             ?>
                                             <option value="<?php echo esc_attr($term->slug); ?>" <?php selected($selected_term, $term->slug); ?>>
-                                                <?php echo esc_html($term->name); ?>
+                                                <?php echo esc_html($display_name); ?>
                                             </option>
                                         <?php endforeach;
                                     endif;
@@ -347,7 +349,9 @@ if (!empty($search_query)) {
                                             if ($case_terms && !is_wp_error($case_terms)) {
                                                 $terms_array = array();
                                                 foreach ($case_terms as $case_term) {
-                                                    $terms_array[] = esc_html($case_term->name);
+                                                    // Remove "term-" prefix from display name
+                                                    $display_name = preg_replace('/^term-/i', '', $case_term->name);
+                                                    $terms_array[] = esc_html($display_name);
                                                 }
                                                 echo implode(', ', $terms_array);
                                             } else {
