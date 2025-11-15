@@ -286,7 +286,7 @@ if (!empty($search_query)) {
                                     ?>
                                 </select>
                             </div>
-
+                    <?php if (current_user_can('manage_options')) : ?>                            
                             <div class="col-md-4 mb-3">
                                 <label for="post_status" style="font-weight: bold; display: block; margin-bottom: 5px;">Post Status:</label>
                                 <select name="post_status" id="post_status" class="form-control">
@@ -297,6 +297,7 @@ if (!empty($search_query)) {
                                     <option value="private" <?php selected($selected_post_status, 'private'); ?>>Private</option>
                                 </select>
                             </div>
+                        <?php endif; ?>
                         </div>
 
                         <button type="submit" class="btn btn-secondary">Filter Cases</button>
@@ -308,18 +309,18 @@ if (!empty($search_query)) {
                 <div class="cases-count" style="margin: 20px 0; display: flex; justify-content: space-between; align-items: center;">
                     <p style="margin: 0;"><strong>Showing <?php echo $cases_query->post_count; ?> of <?php echo $cases_query->found_posts; ?> cases</strong></p>
 
-                    <?php if ($total_draft_count > 0) : ?>
                         <form method="post" action="" id="publish-all-form" style="margin: 0;">
                             <?php wp_nonce_field('publish_all_cases_action', 'publish_all_cases_nonce'); ?>
                             <input type="hidden" name="case_term" value="<?php echo esc_attr($selected_term); ?>">
                             <input type="hidden" name="status" value="<?php echo esc_attr($selected_status); ?>">
                             <input type="hidden" name="post_status" value="<?php echo esc_attr($selected_post_status); ?>">
                             <input type="hidden" name="case_search" value="<?php echo esc_attr($search_query); ?>">
+                    <?php if ($total_draft_count > 0 && current_user_can('manage_options')) : ?>                            
                             <button type="submit" name="publish_all_drafts" class="btn btn-success btn-secondary" onclick="return confirm('Are you sure you want to publish all <?php echo $total_draft_count; ?> draft case(s) in this filtered set? This action cannot be undone.');">
                                 Publish All (<?php echo $total_draft_count; ?> drafts)
                             </button>
-                        </form>
-                    <?php endif; ?>
+                     <?php endif; ?>
+                        </form>                   
                 </div>
 
                 <!-- Cases Table -->
