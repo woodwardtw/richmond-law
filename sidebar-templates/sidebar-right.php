@@ -21,8 +21,10 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 		
 <?php else : ?>
 	<div class="col-md-3 widget-area" id="right-sidebar">
-		<img src="<?php echo get_template_directory_uri();?>/imgs/ur-text.svg" class="img-fluid ur-logo" alt="University of Richmond.">
-		<a href="https://law.richmond.edu/">
+		<a class="img-link fluid" href="https://richmond.edu/">
+			<img src="<?php echo get_template_directory_uri();?>/imgs/ur-text.svg" class="img-fluid ur-logo" alt="University of Richmond.">
+		</a>
+		<a class="img-link fluid"href="https://law.richmond.edu/">
 			<img src="<?php echo get_template_directory_uri();?>/imgs/law-logo.svg" class="img-fluid logo" alt="UR Law School logo.">
 		</a>
 <?php endif; ?>
