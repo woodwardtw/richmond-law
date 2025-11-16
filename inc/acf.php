@@ -177,7 +177,7 @@ function ur_law_coverage_repeater(){
 	        }
 	        $html .= "<li>
 	        			{$title}
-	        			<p>{$summary}</p>
+	        			{$summary}
 	        			</li>";
 	    // End loop.
 	    endwhile;
