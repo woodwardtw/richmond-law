@@ -15729,8 +15729,16 @@ article {
 }
 
 /*menu focus*/
+#main-menu .nav-link {
+  font-size: 1.1rem;
+}
+
 #main-menu .dropdown-menu.show {
   border-radius: 0 !important;
+}
+
+.dropdown-toggle::after {
+  font-size: 0.8rem;
 }
 
 .current-menu-item, .current_page_item {
