@@ -341,6 +341,15 @@ article {
     border-color: #bee5eb;
 }
 
+/*menu focus*/
+#main-menu .dropdown-menu.show {
+  border-radius: 0!important;
+}
+
+.current-menu-item, .current_page_item{
+  border-bottom: 1px solid #fff;
+}
+
 @media only screen and (max-width: 800px) 
  {
  	article {

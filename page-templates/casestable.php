@@ -286,7 +286,7 @@ if (!empty($search_query)) {
                                     ?>
                                 </select>
                             </div>
-                    <?php if (current_user_can('manage_options')) : ?>                            
+                        <?php if (current_user_can('manage_options')) : ?>                            
                             <div class="col-md-4 mb-3">
                                 <label for="post_status" style="font-weight: bold; display: block; margin-bottom: 5px;">Post Status:</label>
                                 <select name="post_status" id="post_status" class="form-control">
