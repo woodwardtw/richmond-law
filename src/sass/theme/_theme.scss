@@ -105,6 +105,8 @@ h1, h2, h3, h4, h5 {
     line-height: calc(1ex / 0.42);
     margin: calc(1ex / 0.42) 0;
     font-weight: 800;
+    border-bottom: 2px solid $red;
+    padding-bottom: 10px;
 }
 
  h2 {
@@ -199,12 +201,13 @@ article {
 }
 
 .section:nth-of-type(even){
-	background-color: $lightblue;
+	background-color: $lightgray;
+  border-left: 4px solid $red;
 }
 
 .section h2 {
 	border-bottom: 1px solid $lightgray;
-	margin-bottom: 25px;
+	margin-bottom: 0px;
 }
 
 .section h3 {
@@ -278,7 +281,7 @@ article {
 
 .case-details {
 	width: 100%;
-  margin: 40px 0 80px 0
+  margin: 40px 0 20px 0
 }
 
 .case-details a {
