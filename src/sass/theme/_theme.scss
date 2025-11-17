@@ -82,13 +82,15 @@ body {
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 	font-weight: 400;
-	font-family: serif;
+	font-family: "Roboto", Tahoma, sans-serif;
 }
 
 p, li {
 	font-weight: 500;
 	font-family: serif;
-	font-size: 1.3rem;
+	font-size: 1.1rem;
+  text-rendering: optimizeLegibility;
+  font-family: "Roboto", Tahoma, sans-serif;
 }
 
 li li {
