@@ -215,7 +215,7 @@ if (!empty($search_query)) {
 
         <div class="row">
 
-            <main class="site-main col-md-12" id="main">
+            <main class="site-main col-md-8 offset-md-2" id="main">
 
                 <?php while ( have_posts() ) : the_post(); ?>
                     <h1 class="entry-title"><?php the_title(); ?></h1>
