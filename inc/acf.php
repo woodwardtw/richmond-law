@@ -94,7 +94,7 @@ function ur_law_basic_html($obj,$h_level){
 function ur_law_holding($obj,$h_level){
 	$status = get_field('status')->name;
 	$basic_label = "Holding";
-	if($status == 'Pending'){
+	if($status == "Pending"){
 	    	$basic_label = "Issue";
 	    } 
 	if(isset(get_field_object($obj)['value'])){
@@ -138,7 +138,11 @@ function url_law_case_citation(){
 function ur_law_briefs_repeater(){
 	$html = '';
 	if( have_rows('briefs') ):
-		$html = "<div class='section' id='briefs'><h2>Briefs and Records</h2><ul>";
+		// Use the ACF field label for the heading when available so the heading
+		// can be changed in ACF UI. Fall back to the original text otherwise.
+		$field_obj = get_field_object('briefs');
+		$heading = (isset($field_obj['label']) && $field_obj['label']) ? $field_obj['label'] : 'Briefs and Records';
+		$html = "<div class='section' id='briefs'><h2>" . esc_html($heading) . "</h2><ul>";
 	    // Loop through rows.
 	    while( have_rows('briefs') ) : the_row();
 
@@ -163,7 +167,11 @@ function ur_law_briefs_repeater(){
 function ur_law_coverage_repeater(){
 	$html = '';
 	if( have_rows('case_coverage') ):
-		$html = "<div class='section' id='coverage'><h2>Case Coverage</h2><ul>";
+		// Use the ACF field label for the heading when available so the heading
+		// can be changed in ACF UI. Fall back to the original text otherwise.
+		$field_obj = get_field_object('case_coverage');
+		$heading = (isset($field_obj['label']) && $field_obj['label']) ? $field_obj['label'] : 'Case Coverage';
+		$html = "<div class='section' id='coverage'><h2>" . esc_html($heading) . "</h2><ul>";
 	    // Loop through rows.
 	    while( have_rows('case_coverage') ) : the_row();
 

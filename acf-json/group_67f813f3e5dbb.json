@@ -68,7 +68,8 @@
             "display_format": "F j, Y",
             "return_format": "F j, Y",
             "first_day": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "default_to_current_date": 0
         },
         {
             "key": "field_684b0969291af",
@@ -105,7 +106,8 @@
             "display_format": "F j, Y",
             "return_format": "F j, Y",
             "first_day": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "default_to_current_date": 0
         },
         {
             "key": "field_684b0a08eee05",
@@ -142,7 +144,8 @@
             "display_format": "F j, Y",
             "return_format": "F j, Y",
             "first_day": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "default_to_current_date": 0
         },
         {
             "key": "field_684b0a1feee06",
@@ -485,5 +488,6 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1754834097
+    "display_title": "",
+    "modified": 1763408595
 }
