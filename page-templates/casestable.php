@@ -14,9 +14,48 @@ get_header();
 
 $container = get_theme_mod( 'understrap_container_type' );
 
+// Define search filter functions (only once)
+if (!function_exists('cases_search_where_filter')) {
+    function cases_search_where_filter($where, $query) {
+        global $wpdb, $cases_search_term;
+
+        // Only add custom search for case queries with our search term
+        if (!empty($cases_search_term) && !is_admin() && $query->get('post_type') === 'case') {
+            $search_like = '%' . $wpdb->esc_like($cases_search_term) . '%';
+
+            // Add OR condition for postmeta search
+            $custom_where = $wpdb->prepare(
+                " OR {$wpdb->posts}.ID IN (
+                    SELECT post_id FROM {$wpdb->postmeta}
+                    WHERE meta_value LIKE %s
+                )",
+                $search_like
+            );
+
+            // Find the last occurrence of WordPress's search closing parens and add our condition
+            if (strpos($where, 'post_title LIKE') !== false) {
+                // WordPress has added search - extend it
+                $where = preg_replace('/(\)\)\))/', $custom_where . '$1', $where, 1);
+            }
+        }
+        return $where;
+    }
+
+    function cases_search_distinct($distinct, $query) {
+        global $cases_search_term;
+
+        // Make results distinct when searching meta to avoid duplicates
+        if (!empty($cases_search_term) && !is_admin() && $query->get('post_type') === 'case') {
+            return 'DISTINCT';
+        }
+        return $distinct;
+    }
+}
+
 // Handle Publish All action
 $publish_message = '';
-if (isset($_POST['publish_all_drafts']) && check_admin_referer('publish_all_cases_action', 'publish_all_cases_nonce')) {
+// Only allow users with the appropriate capability to perform this action server-side
+if (isset($_POST['publish_all_drafts']) && check_admin_referer('publish_all_cases_action', 'publish_all_cases_nonce') && current_user_can('manage_options')) {
     // Get filter values from POST to match the same query
     $selected_term = isset($_POST['case_term']) ? sanitize_text_field($_POST['case_term']) : '';
     $selected_status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
@@ -25,10 +64,17 @@ if (isset($_POST['publish_all_drafts']) && check_admin_referer('publish_all_case
 
     // Apply search filter if search query is provided
     if (!empty($search_query_post)) {
-        global $cases_search_term;
+        global $cases_search_term, $cases_search_where_closure, $cases_search_distinct_closure;
         $cases_search_term = $search_query_post;
-        add_filter('posts_where', 'cases_search_where_filter', 10, 2);
-        add_filter('posts_distinct', 'cases_search_distinct', 10, 2);
+        // Use closures that call the named functions so the callable exists at registration time.
+        $cases_search_where_closure = function($where, $query) {
+            return cases_search_where_filter($where, $query);
+        };
+        $cases_search_distinct_closure = function($distinct, $query) {
+            return cases_search_distinct($distinct, $query);
+        };
+        add_filter('posts_where', $cases_search_where_closure, 10, 2);
+        add_filter('posts_distinct', $cases_search_distinct_closure, 10, 2);
     }
 
     // Build args to get ALL drafts in the filtered set (not just current page)
@@ -75,8 +121,17 @@ if (isset($_POST['publish_all_drafts']) && check_admin_referer('publish_all_case
 
     // Remove the search filters after query is complete
     if (!empty($search_query_post)) {
-        remove_filter('posts_where', 'cases_search_where_filter', 10);
-        remove_filter('posts_distinct', 'cases_search_distinct', 10);
+        // If closures were used, remove those; otherwise fall back to named functions
+        if (!empty($cases_search_where_closure) && is_callable($cases_search_where_closure)) {
+            remove_filter('posts_where', $cases_search_where_closure, 10);
+        } else {
+            remove_filter('posts_where', 'cases_search_where_filter', 10);
+        }
+        if (!empty($cases_search_distinct_closure) && is_callable($cases_search_distinct_closure)) {
+            remove_filter('posts_distinct', $cases_search_distinct_closure, 10);
+        } else {
+            remove_filter('posts_distinct', 'cases_search_distinct', 10);
+        }
         unset($GLOBALS['cases_search_term']);
     }
 
@@ -104,50 +159,34 @@ $selected_post_status = isset($_GET['post_status']) ? sanitize_text_field($_GET[
 $search_query = isset($_GET['case_search']) ? sanitize_text_field($_GET['case_search']) : '';
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
-// Define search filter functions (only once)
-if (!function_exists('cases_search_where_filter')) {
-    function cases_search_where_filter($where, $query) {
-        global $wpdb, $cases_search_term;
-
-        // Only add custom search for case queries with our search term
-        if (!empty($cases_search_term) && !is_admin() && $query->get('post_type') === 'case') {
-            $search_like = '%' . $wpdb->esc_like($cases_search_term) . '%';
-
-            // Add OR condition for postmeta search
-            $custom_where = $wpdb->prepare(
-                " OR {$wpdb->posts}.ID IN (
-                    SELECT post_id FROM {$wpdb->postmeta}
-                    WHERE meta_value LIKE %s
-                )",
-                $search_like
-            );
-
-            // Find the last occurrence of WordPress's search closing parens and add our condition
-            if (strpos($where, 'post_title LIKE') !== false) {
-                // WordPress has added search - extend it
-                $where = preg_replace('/(\)\)\))/', $custom_where . '$1', $where, 1);
-            }
-        }
-        return $where;
-    }
-
-    function cases_search_distinct($distinct, $query) {
-        global $cases_search_term;
-
-        // Make results distinct when searching meta to avoid duplicates
-        if (!empty($cases_search_term) && !is_admin() && $query->get('post_type') === 'case') {
-            return 'DISTINCT';
-        }
-        return $distinct;
+// Only logged-in users may view non-published cases (draft/pending/private).
+// Anonymous users are forced to see only published posts regardless of URL params.
+if ( ! is_user_logged_in() ) {
+    $post_status_arg = 'publish';
+    // Ensure the UI reflects that anonymous users can't request other statuses
+    $selected_post_status = 'publish';
+} else {
+    if ( ! empty( $selected_post_status ) ) {
+        $post_status_arg = $selected_post_status;
+    } else {
+        // Default for logged-in users: show published and drafts
+        $post_status_arg = array( 'publish', 'draft' );
     }
 }
 
 // Apply search filter if search query is provided
 if (!empty($search_query)) {
-    global $cases_search_term;
+    global $cases_search_term, $cases_search_where_closure, $cases_search_distinct_closure;
     $cases_search_term = $search_query;
-    add_filter('posts_where', 'cases_search_where_filter', 10, 2);
-    add_filter('posts_distinct', 'cases_search_distinct', 10, 2);
+    // Register closures that call the named functions.
+    $cases_search_where_closure = function($where, $query) {
+        return cases_search_where_filter($where, $query);
+    };
+    $cases_search_distinct_closure = function($distinct, $query) {
+        return cases_search_distinct($distinct, $query);
+    };
+    add_filter('posts_where', $cases_search_where_closure, 10, 2);
+    add_filter('posts_distinct', $cases_search_distinct_closure, 10, 2);
 }
 
 // Build query args
@@ -155,7 +194,7 @@ $args = array(
     'post_type' => 'case',
     'posts_per_page' => 50,
     'paged' => $paged,
-    'post_status' => !empty($selected_post_status) ? $selected_post_status : array('publish', 'draft'),
+    'post_status' => $post_status_arg,
     'orderby' => 'title',
     'order' => 'ASC',
     'suppress_filters' => false
@@ -203,8 +242,16 @@ wp_reset_postdata();
 
 // Remove the search filters after queries are complete
 if (!empty($search_query)) {
-    remove_filter('posts_where', 'cases_search_where_filter', 10);
-    remove_filter('posts_distinct', 'cases_search_distinct', 10);
+    if (!empty($cases_search_where_closure) && is_callable($cases_search_where_closure)) {
+        remove_filter('posts_where', $cases_search_where_closure, 10);
+    } else {
+        remove_filter('posts_where', 'cases_search_where_filter', 10);
+    }
+    if (!empty($cases_search_distinct_closure) && is_callable($cases_search_distinct_closure)) {
+        remove_filter('posts_distinct', $cases_search_distinct_closure, 10);
+    } else {
+        remove_filter('posts_distinct', 'cases_search_distinct', 10);
+    }
     unset($GLOBALS['cases_search_term']);
 }
 ?>
