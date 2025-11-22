@@ -230,9 +230,15 @@ article {
 }
 
 
-.site-footer {
+.site-footer, #wrapper-footer-full {
 	background-color: $darkgray;
 	height: 300px;
+  color: $white;
+}
+
+#wrapper-footer-full a {
+  color: $white;
+  text-decoration: none;
 }
 
 #synopsis .section{	

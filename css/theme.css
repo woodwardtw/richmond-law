@@ -15588,9 +15588,15 @@ article {
   padding: 0 40px;
 }
 
-.site-footer {
+.site-footer, #wrapper-footer-full {
   background-color: #262525;
   height: 300px;
+  color: #fff;
+}
+
+#wrapper-footer-full a {
+  color: #fff;
+  text-decoration: none;
 }
 
 #synopsis .section {

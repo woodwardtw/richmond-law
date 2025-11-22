@@ -19,7 +19,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <div class="wrapper" id="wrapper-footer-full" role="complementary">
 
-	<div class="<?php echo esc_attr( $container ); ?>" id="footer-full-content" tabindex="-1">
+	<div class="container" id="footer-full-content" tabindex="-1">
 
 		<div class="row">
 
