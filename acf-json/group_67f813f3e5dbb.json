@@ -12,7 +12,30 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "50",
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_695a88d962921",
+            "label": "Docket ID",
+            "name": "docket_id",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
                 "class": "",
                 "id": ""
             },
@@ -489,5 +512,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1763408595
+    "modified": 1767541099
 }

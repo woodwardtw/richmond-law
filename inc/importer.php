@@ -33,6 +33,7 @@ if ($file !== FALSE) {
             //$slug = $data[6];
             $holding = $data[22];
             $record_number = $data[29];
+            $docket_id = $data[27];
             $author = ur_law_judge_extract($data[42]);//
             $date = $data[10];
             $listener_url = $data[76]; // url for opinion
@@ -80,6 +81,7 @@ if ($file !== FALSE) {
 				);
 	        $post_id = wp_insert_post($args);
 	        update_field("field_68409d59458b9", $record_number, $post_id);//record number
+            update_field("field_695a88d962921", $docket_id, $post_id);//docket id
 	        update_field("field_6813bd5df583f", $holding, $post_id);//Holding
 	        update_field("field_6841b48acd6b8", $case_term_id, $post_id); //Case term
 			update_field("field_67f81629abfab", $status_term_id, $post_id); //status
@@ -102,10 +104,10 @@ if ($file !== FALSE) {
 }
 
 function ur_law_title_extract($data){
-	if($data[4]){
-		return $data[4];
-	} elseif ($data[3]){
-		return $data[3];
+	if($data[3]){
+		return urlaw_title_clearner($data[3]);
+	} elseif ($data[4]){
+		return urlaw_title_clearner($data[4]);
 	} else {
 		return '';
 	}
@@ -197,6 +199,12 @@ function order_citations(array $citations): array {
         }
     }
     return $bucketed;
+}
+
+function urlaw_title_clearner($title){
+    //look for against and replace with v.
+    $clean_title = str_ireplace("against", "v.", $title);
+    return $clean_title;
 }
 
 
