@@ -3,6 +3,32 @@
     "title": "Case Details",
     "fields": [
         {
+            "key": "field_69874eb657b08",
+            "label": "Verification status",
+            "name": "verification_status",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "Select 'Yes' when this record has been verified.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "Verified": "Verified",
+                "Unverified": "Unverified"
+            },
+            "default_value": "Unverified",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "vertical",
+            "save_other_choice": 0
+        },
+        {
             "key": "field_68409d59458b9",
             "label": "Record Number",
             "name": "record_number",
@@ -512,5 +538,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1767541099
+    "modified": 1770475551
 }

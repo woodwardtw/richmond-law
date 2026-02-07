@@ -214,6 +214,19 @@ function ur_law_audio(){
 	}	
 }
 
+//show verification messages on single case pages
+function ur_law_verification(){
+	$verified_text = get_field('reviewed_content', 'option');
+	$unverified_text = get_field('unreviewed_content', 'option');
+	$verification = get_field("verification_status");
+	if($verification == "Verified"){
+		return "<div class='verification verified alert alert-secondary'>{$verified_text}</div>";
+	} elseif ($verification == "Unverified"){
+		return "<div class='verification unverified alert alert-warning'>{$unverified_text}</div>";
+	} else {
+		return "";
+	}
+}
 
 
 //save acf json

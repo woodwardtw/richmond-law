@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 	<header class="entry-header">
 
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-
+		<?php echo ur_law_verification();?>
 		<div class="entry-meta">
 			<?php //understrap_posted_on(); ?>
 
