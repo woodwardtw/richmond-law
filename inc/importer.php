@@ -90,7 +90,7 @@ if ($file !== FALSE) {
             // update_field("field_684b0a1feee06", $listener_url, $post_id); //opinion url
             // update_field("field_6813bee1f5843", $listener_url, $post_id); //access url
 			// wp_set_object_terms($post_id, 'Decided', 'status'); //set status term    
-             $html .= "<tr><td>{$title}</td><td>{$date}</td><td>{$citation}</td><td>{$listener_url}</td></tr>";
+             $html .= "<tr><td>{$title}</td><td>{$date}</td><td>{$case_term_id}</td><td>{$listener_url}</td></tr>";
 	        
 	    }
 		return $html . "</table>";
@@ -114,12 +114,17 @@ function ur_law_title_extract($data){
 
 
 function ur_law_case_term($slug, $taxonomy){	
-	if (!term_exists($slug, $taxonomy)) {
-	    $term_id = wp_insert_term($slug, $taxonomy);
-	} else {
-		$term_id = get_term_by('slug', $slug , $taxonomy);
-	}
-	return $term_id;
+    if (!term_exists($slug, $taxonomy)) {
+        $result = wp_insert_term($slug, $taxonomy);
+        if (is_wp_error($result)) {
+            return 0;
+        }
+        $term_id = isset($result['term_id']) ? (int) $result['term_id'] : 0;
+    } else {
+        $term = get_term_by('slug', $slug, $taxonomy);
+        $term_id = $term ? (int) $term->term_id : 0;
+    }
+    return $term_id;
 }
 
 function ur_law_judge_extract($text){
