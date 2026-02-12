@@ -221,7 +221,7 @@ function ur_law_verification(){
 	$verification = get_field("verification_status");
 	if($verification == "Verified"){
 		return "<div class='verification verified alert alert-secondary'>{$verified_text}</div>";
-	} elseif ($verification == "Unverified"){
+	} elseif ($verification == "Unverified" || $verification === null){
 		return "<div class='verification unverified alert alert-warning'>{$unverified_text}</div>";
 	} else {
 		return "";
