@@ -44,52 +44,52 @@ if ($file !== FALSE) {
             $holding = $data[21];
 
             // Check for duplicates: same year and record number
-            // $duplicate_args = array(
-            //     'post_type' => 'case',
-            //     'post_status' => 'any',
-            //     'posts_per_page' => -1,
-            //     'meta_query' => array(
-            //         array(
-            //             'key' => 'record_number',
-            //             'value' => $record_number,
-            //             'compare' => '='
-            //         )
-            //     ),
-            //     'tax_query' => array(
-            //         array(
-            //             'taxonomy' => 'case_terms',
-            //             'field' => 'slug',
-            //             'terms' => 'term-' . $year
-            //         )
-            //     )
-            // );
-            // $duplicate_check = new WP_Query($duplicate_args);
+            $duplicate_args = array(
+                'post_type' => 'case',
+                'post_status' => 'any',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    array(
+                        'key' => 'record_number',
+                        'value' => $record_number,
+                        'compare' => '='
+                    )
+                ),
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'case_terms',
+                        'field' => 'slug',
+                        'terms' => 'term-' . $year
+                    )
+                )
+            );
+            $duplicate_check = new WP_Query($duplicate_args);
 
-            // if ($duplicate_check->have_posts()) {
-            //     // Duplicate found - skip this record
-            //     $html .= "<tr style='background-color: #ffcccc;'><td>{$title}</td><td>{$date}</td><td colspan='2'>SKIPPED - Duplicate (Year: {$year}, Record: {$record_number})</td></tr>";
-            //     wp_reset_postdata();
-            //     continue;
-            // }
-            // wp_reset_postdata();
+            if ($duplicate_check->have_posts()) {
+                // Duplicate found - skip this record
+                $html .= "<tr style='background-color: #ffcccc;'><td>{$title}</td><td>{$date}</td><td colspan='2'>SKIPPED - Duplicate (Year: {$year}, Record: {$record_number})</td></tr>";
+                wp_reset_postdata();
+                continue;
+            }
+            wp_reset_postdata();
 
-	        // $args = array(
-			// 	'post_title'    => wp_strip_all_tags( $title ),
-			// 	'post_status'   => 'draft',
-			// 	'post_type'     => 'case'
-			// 	);
-	        // $post_id = wp_insert_post($args);
-	        // update_field("field_68409d59458b9", $record_number, $post_id);//record number
-            // update_field("field_695a88d962921", $docket_id, $post_id);//docket id
-	        // update_field("field_6813bd5df583f", $holding, $post_id);//Holding
-	        // update_field("field_6841b48acd6b8", $case_term_id, $post_id); //Case term
-			// update_field("field_67f81629abfab", $status_term_id, $post_id); //status
-			// update_field("field_6813becaf5842", $citation, $post_id); //citation
-			// update_field("field_68409de8458bd", $author, $post_id); //author/judge
-            // update_field("field_68409dc6458bc", $date, $post_id); //opinion date
-            // update_field("field_684b0a1feee06", $listener_url, $post_id); //opinion url
-            // update_field("field_6813bee1f5843", $listener_url, $post_id); //access url
-			// wp_set_object_terms($post_id, 'Decided', 'status'); //set status term    
+	        $args = array(
+				'post_title'    => wp_strip_all_tags( $title ),
+				'post_status'   => 'draft',
+				'post_type'     => 'case'
+				);
+	        $post_id = wp_insert_post($args);
+	        update_field("field_68409d59458b9", $record_number, $post_id);//record number
+            update_field("field_695a88d962921", $docket_id, $post_id);//docket id
+	        update_field("field_6813bd5df583f", $holding, $post_id);//Holding
+	        update_field("field_6841b48acd6b8", $case_term_id, $post_id); //Case term
+			update_field("field_67f81629abfab", $status_term_id, $post_id); //status
+			update_field("field_6813becaf5842", $citation, $post_id); //citation
+			update_field("field_68409de8458bd", $author, $post_id); //author/judge
+            update_field("field_68409dc6458bc", $date, $post_id); //opinion date
+            update_field("field_684b0a1feee06", $listener_url, $post_id); //opinion url
+            update_field("field_6813bee1f5843", $listener_url, $post_id); //access url
+			wp_set_object_terms($post_id, 'Decided', 'status'); //set status term    
              $html .= "<tr><td>{$title}</td><td>{$date}</td><td>{$case_term_id}</td><td>{$listener_url}</td></tr>";
 	        
 	    }
