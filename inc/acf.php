@@ -20,7 +20,7 @@ function ur_law_url_maker($url, $text){
 }
 
 function ur_law_basics_table(){
-	$record = get_field('record_number');
+	$docket = get_field('docket_id');
 	
 	$op_below = get_field('op_below');
 	$op_below_url = get_field('op_below_url');
@@ -48,7 +48,7 @@ function ur_law_basics_table(){
 		<table class='case-details'>
 			<thead>
 				<tr>
-					<th>Record No.</th>
+					<th>Docket No.</th>
 					<th>Op. Below</th>
 					<th>Argument</th>
 					<th>Opinion</th>
@@ -58,7 +58,7 @@ function ur_law_basics_table(){
 			</thead>
 			<tbody>
 				<tr>
-					<td data-label='Record No.'>{$record}</td>
+					<td data-label='Record No.'>{$docket}</td>
 					<td data-label='Op. Below'>{$op}</td>
 					<td data-label='Argument'>{$arg}</td>
 					<td data-label='Opinion'>{$opine}</td>
