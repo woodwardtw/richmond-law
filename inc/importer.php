@@ -27,7 +27,7 @@ if ($file !== FALSE) {
    // The fgetcsv() function reads a line from the file and parses it as CSV fields
    $html = '<table>';
    $row = 0;
-   while (($data = fgetcsv($file)) !== FALSE && $row < 10) {
+   while (($data = fgetcsv($file)) !== FALSE ) {
 	        $row = $row + 1;
             $title = ur_law_title_extract($data);//short case name
             $holding = $data[22];//summary 
