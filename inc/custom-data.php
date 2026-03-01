@@ -19,8 +19,8 @@ function create_case_cpt() {
   $labels = array(
     'name' => __( 'Cases', 'Post Type General Name', 'textdomain' ),
     'singular_name' => __( 'Case', 'Post Type Singular Name', 'textdomain' ),
-    'menu_name' => __( 'Case', 'textdomain' ),
-    'name_admin_bar' => __( 'Case', 'textdomain' ),
+    'menu_name' => __( 'Cases', 'textdomain' ),
+    'name_admin_bar' => __( 'Cases', 'textdomain' ),
     'archives' => __( 'Case Archives', 'textdomain' ),
     'attributes' => __( 'Case Attributes', 'textdomain' ),
     'parent_item_colon' => __( 'Case:', 'textdomain' ),

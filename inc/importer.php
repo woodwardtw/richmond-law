@@ -14,25 +14,29 @@ defined( 'ABSPATH' ) || exit;
 add_shortcode( 'caseimport', 'ur_law_case_importer' );
 
 function ur_law_case_importer(){
-	// Open the CSV file in read mode
-	$data_path = get_template_directory() . "/data/ur-data-all.csv";
-	//$data_path = get_template_directory() . "/data/cases.csv";
+	// Open the TSV file in read mode (tab-separated values)
+	// adjust filename as needed; original CSV-based import used ur-data-all.csv
+	$data_path = get_template_directory() . "/data/ur-law-records.tsv";
+	//$data_path = get_template_directory() . "/data/cases.tsv";
 	$file = fopen($data_path, "r");
 
 // Check if the file opened successfully
 if ($file !== FALSE) {
-   // Skip the header row
-   fgetcsv($file);
+   // Skip the header row (still uses fgetcsv with tab delimiter)
+   fgetcsv($file, 0, "\t");
    // Loop through each row of the file
-   // The fgetcsv() function reads a line from the file and parses it as CSV fields
+   // Use fgetcsv with a tab delimiter to parse TSV fields
    $html = '<table>';
    $row = 0;
-   while (($data = fgetcsv($file)) !== FALSE ) {
+   while (($data = fgetcsv($file, 0, "\t")) !== FALSE ) {
 	        $row = $row + 1;
             $title = ur_law_title_extract($data);//short case name
             $holding = $data[22];//summary 
-            $record_number = $data[29];//docket_id !!!!!!
-            $docket_id = $data[27];//
+            $record_number = $data[29];//record number
+            $docket_id = $data[27];//docket id
+            // Normalize ID fields to remove accidental whitespace
+            $record_number = is_scalar($record_number) ? trim((string)$record_number) : '';
+            $docket_id = is_scalar($docket_id) ? trim((string)$docket_id) : '';
             $author = ur_law_judge_extract($data[42]);//
             $date = $data[10];
             $listener_url = $data[76]; // url for opinion
@@ -43,25 +47,35 @@ if ($file !== FALSE) {
             $status_term_id = ur_law_case_term($status, "status");
             $holding = $data[21];
 
-            // Check for duplicates: same year and record number
+            // Quick title-based duplicate check: skip if a case with the same title already exists.
+            // This catches duplicates when meta values differ between imports.
+            $existing_by_title = get_page_by_title( wp_strip_all_tags( $title ), OBJECT, 'case' );
+            if ( $existing_by_title ) {
+                $html .= "<tr style='background-color: #ffcccc;'><td>{$title}</td><td>{$date}</td><td colspan='2'>SKIPPED - Duplicate (Title match)</td></tr>";
+                continue;
+            }
+
+            // Check for duplicates: compare record number or docket id (year taxonomy no longer required)
+            // using OR relation so we catch a match on either field.  This avoids missing duplicates
+            // when the year term wasn't applied properly during an earlier import.
             $duplicate_args = array(
                 'post_type' => 'case',
                 'post_status' => 'any',
-                'posts_per_page' => -1,
+                'posts_per_page' => 1,
                 'meta_query' => array(
+                    'relation' => 'OR',
                     array(
                         'key' => 'record_number',
                         'value' => $record_number,
                         'compare' => '='
-                    )
-                ),
-                'tax_query' => array(
+                    ),
                     array(
-                        'taxonomy' => 'case_terms',
-                        'field' => 'slug',
-                        'terms' => 'term-' . $year
+                        'key' => 'docket_id',
+                        'value' => $docket_id,
+                        'compare' => '='
                     )
                 )
+                // dropped tax_query (year) because meta check is sufficient and more reliable
             );
             $duplicate_check = new WP_Query($duplicate_args);
 
