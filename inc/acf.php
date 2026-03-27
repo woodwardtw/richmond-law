@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit;
 //case acf functions
 
 function ur_law_url_maker($url, $text){
-	$text = '';
 	if($url != ''){
 		return "<a href='{$url}'>{$text}</a>";
 	} else {
@@ -69,7 +68,7 @@ function ur_law_basics_table(){
 					<td data-label='Record No.'>{$docket}</td>
 					<td data-label='Op. Below'>{$op}</td>
 					<td data-label='Argument'>{$arg}</td>
-					<td data-label='Opinion'>{$opine}</td>
+					<td " . (!empty($opine) ? "data-label='Opinion'" : "") . ">{$opine}</td>
 					<td data-label='Author'>{$author}</td>
 					<td data-label='Term'>{$term}</td>
 				</tr>

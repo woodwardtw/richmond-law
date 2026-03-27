@@ -377,7 +377,7 @@ if (!empty($search_query)) {
                             <thead>
                                 <tr>
                                     <th>Title</th>
-                                    <th>Term</th>
+                                    <th>Year</th>
                                     <th>Docket No.</th>
                                     <th>Status</th>
                                 </tr>
