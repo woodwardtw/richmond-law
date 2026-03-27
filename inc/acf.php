@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
 //case acf functions
 
 function ur_law_url_maker($url, $text){
+	$text = '';
 	if($url != ''){
 		return "<a href='{$url}'>{$text}</a>";
 	} else {
@@ -38,7 +39,14 @@ function ur_law_basics_table(){
 
 	$author = get_field('author');
 	
-	$term_obj = get_field('term');
+	$term_obj = get_field('term');//deal with no terms below by assigning to "term-unknown" term, which is created if it doesn't exist
+	if ( ! $term_obj ) {
+		$term_obj = get_term_by( 'slug', 'term-unknown', 'case_terms' );
+		if ( ! $term_obj ) {
+			$inserted = wp_insert_term( 'term-unknown', 'case_terms', array( 'slug' => 'term-unknown' ) );
+			$term_obj = get_term( $inserted['term_id'], 'case_terms' );
+		}
+	}
 	$term_name = preg_replace('/^term-/', '', $term_obj->name);
 	$term_url = get_term_link($term_obj);
 	$term = ur_law_url_maker($term_url, $term_name);
@@ -96,8 +104,8 @@ function ur_law_holding($obj,$h_level){
 	$basic_label = "Holding";
 	if($status == "Pending"){
 	    	$basic_label = "Issue";
-	    } 
-	if(isset(get_field_object($obj)['value'])){
+	    }
+	if(!empty(get_field_object($obj)['value'])){
 		$basic_obj = get_field_object($obj);
 	    $basic = $basic_obj['value'];   
 	    //puts p tags for text fields
@@ -120,17 +128,19 @@ function url_law_case_citation(){
 	$citation = get_field("case_citation");
 	$url = get_field("case_url");
 	$term = substr(get_field('term')->name, -4);
-	if($url == ''){
-		return "
-		<div id='citation'>
-			<p>Citations: {$citation}</p>
-		</div>";
-	} else {
-		return "
+	if(!empty($citation)){
+		if($url == ''){
+			return "
 			<div id='citation'>
-				<p>Citation: <a href='{$url}'> {$citation}</a></p>
-			</div>
-		";
+				<p>Citations: {$citation}</p>
+			</div>";
+		} else {
+			return "
+				<div id='citation'>
+					<p>Citation: <a href='{$url}'> {$citation}</a></p>
+				</div>
+			";
+		}
 	}
 
 }

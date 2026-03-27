@@ -291,9 +291,9 @@ if (!empty($search_query)) {
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="case_term" style="font-weight: bold; display: block; margin-bottom: 5px;">Term:</label>
+                                <label for="case_term" style="font-weight: bold; display: block; margin-bottom: 5px;">Year:</label>
                                 <select name="case_term" id="case_term" class="form-control">
-                                    <option value="">All Terms</option>
+                                    <option value="">All Years</option>
                                     <?php
                                     $terms = get_terms(array(
                                         'taxonomy' => 'case_terms',
@@ -378,7 +378,7 @@ if (!empty($search_query)) {
                                 <tr>
                                     <th>Title</th>
                                     <th>Term</th>
-                                    <th>Record Number</th>
+                                    <th>Docket No.</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -409,8 +409,8 @@ if (!empty($search_query)) {
                                         </td>
                                         <td>
                                             <?php
-                                            $record_number = get_field('record_number');
-                                            echo $record_number ? esc_html($record_number) : '&mdash;';
+                                            $docket_id = get_field('docket_id');
+                                            echo $docket_id ? esc_html($docket_id) : '&mdash;';
                                             ?>
                                         </td>
                                         <td>
