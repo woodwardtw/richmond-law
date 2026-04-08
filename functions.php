@@ -67,6 +67,8 @@ class Recent_Cases_Widget extends WP_Widget {
     public function widget( $args, $instance ) {
         $title = apply_filters( 'widget_title', $instance['title'] ?? 'Recent Cases' );
         $count = $instance['number'] ?? 5;
+        $args['before_title'] = '<h2 class="wp-block-heading">';
+        $args['after_title'] = '</h2>';
 
         $query = new WP_Query([
             'post_type'      => 'case',
@@ -83,10 +85,10 @@ class Recent_Cases_Widget extends WP_Widget {
         }
 
         if ( $query->have_posts() ) {
-            echo '<ul>';
+            echo '<ul class="wp-block-latest-posts__list wp-block-latest-posts">';
             while ( $query->have_posts() ) {
                 $query->the_post();
-                echo '<li><a href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
+                echo '<li><a class="wp-block-latest-posts__post-title" href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
             }
             echo '</ul>';
             wp_reset_postdata();
