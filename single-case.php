@@ -29,7 +29,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				while ( have_posts() ) {
 					the_post();
 					get_template_part( 'loop-templates/content', 'single-case' );
-					understrap_post_nav();
+					//understrap_post_nav();//REMOVE post nav
 
 					// If comments are open or we have at least one comment, load up the comment template.
 					if ( comments_open() || get_comments_number() ) {
