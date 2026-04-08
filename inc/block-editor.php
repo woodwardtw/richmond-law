@@ -8,6 +8,23 @@
 
 add_action( 'after_setup_theme', 'understrap_block_editor_setup' );
 
+add_action( 'enqueue_block_editor_assets', function () {
+	wp_enqueue_script(
+		'richmond-law-query-orderby',
+		get_template_directory_uri() . '/js/query-orderby.js',
+		array( 'wp-hooks', 'wp-compose', 'wp-element', 'wp-block-editor', 'wp-components' ),
+		filemtime( get_template_directory() . '/js/query-orderby.js' ),
+		true
+	);
+} );
+
+add_filter( 'rest_post_collection_params', function ( $params ) {
+	if ( isset( $params['orderby']['enum'] ) && ! in_array( 'modified', $params['orderby']['enum'], true ) ) {
+		$params['orderby']['enum'][] = 'modified';
+	}
+	return $params;
+} );
+
 if ( ! function_exists( 'understrap_block_editor_setup' ) ) {
 
 	/**

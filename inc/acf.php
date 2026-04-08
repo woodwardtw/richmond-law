@@ -20,23 +20,23 @@ function ur_law_url_maker($url, $text){
 }
 
 function ur_law_basics_table(){
-	$docket = get_field('docket_id');
+	$docket = get_field('docket_id') ?: '- -';
 	
-	$op_below = get_field('op_below');
+	$op_below = get_field('op_below')?: '- -';;
 	$op_below_url = get_field('op_below_url');
 	$op = ur_law_url_maker($op_below_url, $op_below);
 	
-	$argument = get_field('argument');
+	$argument = get_field('argument')?: '- -';;
 	$argument_url = get_field('argument_url');
 	$arg = ur_law_url_maker($argument_url, $argument);
 	if(get_field('audio_recording')){
 		$arg = "<a href='#oral-argument'>{$arg}</a>";
 	}
-	$opinion = get_field('opinion');
+	$opinion = get_field('opinion')?: '- -';;
 	$opinion_url = get_field('opinion_url');
 	$opine = ur_law_url_maker($opinion_url, $opinion);
 
-	$author = get_field('author');
+	$author = get_field('author')?: '- -';;
 	
 	$term_obj = get_field('term');//deal with no terms below by assigning to "term-unknown" term, which is created if it doesn't exist
 	if ( ! $term_obj ) {
