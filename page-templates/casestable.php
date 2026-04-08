@@ -386,7 +386,7 @@ if (!empty($search_query)) {
                                 <?php while ($cases_query->have_posts()) : $cases_query->the_post(); ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                            <a href="<?php the_permalink(); ?>"><?php the_field('case_citation'); ?></a>
                                             <?php if (get_post_status() === 'draft') : ?>
                                                 <span class="badge badge-warning" style="margin-left: 5px;">Draft</span>
                                             <?php endif; ?>
