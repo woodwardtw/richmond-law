@@ -280,18 +280,18 @@ if (!empty($search_query)) {
                 <?php endif; ?>
 
                 <!-- Filter Form -->
-                <div class="cases-filters" style="margin: 30px 0; padding: 20px; background: #f5f5f5; border-radius: 5px;">
+                <div class="cases-filters">
                     <form method="get" action="<?php echo esc_url(get_permalink()); ?>">
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="search" style="font-weight: bold; display: block; margin-bottom: 5px;">Search:</label>
+                                <label for="search">Search:</label>
                                 <input type="text" name="case_search" id="search" class="form-control" placeholder="Search cases by title or content..." value="<?php echo esc_attr($search_query); ?>">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="case_term" style="font-weight: bold; display: block; margin-bottom: 5px;">Year:</label>
+                                <label for="case_term">Year:</label>
                                 <select name="case_term" id="case_term" class="form-control">
                                     <option value="">All Years</option>
                                     <?php
@@ -314,7 +314,7 @@ if (!empty($search_query)) {
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="status" style="font-weight: bold; display: block; margin-bottom: 5px;">Status:</label>
+                                <label for="status">Status:</label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="">All Statuses</option>
                                     <?php
@@ -335,7 +335,7 @@ if (!empty($search_query)) {
                             </div>
                         <?php if (current_user_can('manage_options')) : ?>                            
                             <div class="col-md-4 mb-3">
-                                <label for="post_status" style="font-weight: bold; display: block; margin-bottom: 5px;">Post Status:</label>
+                                <label for="post_status">Post Status:</label>
                                 <select name="post_status" id="post_status" class="form-control">
                                     <option value="">All Statuses (Published & Draft)</option>
                                     <option value="publish" <?php selected($selected_post_status, 'publish'); ?>>Published</option>
@@ -353,10 +353,10 @@ if (!empty($search_query)) {
                 </div>
 
                 <!-- Results Count and Publish All Button -->
-                <div class="cases-count" style="margin: 20px 0; display: flex; justify-content: space-between; align-items: center;">
-                    <p style="margin: 0;"><strong>Showing <?php echo $cases_query->post_count; ?> of <?php echo $cases_query->found_posts; ?> cases</strong></p>
+                <div class="cases-count">
+                    <p><strong>Showing <?php echo $cases_query->post_count; ?> of <?php echo $cases_query->found_posts; ?> cases</strong></p>
 
-                        <form method="post" action="" id="publish-all-form" style="margin: 0;">
+                        <form method="post" action="" id="publish-all-form" >
                             <?php wp_nonce_field('publish_all_cases_action', 'publish_all_cases_nonce'); ?>
                             <input type="hidden" name="case_term" value="<?php echo esc_attr($selected_term); ?>">
                             <input type="hidden" name="status" value="<?php echo esc_attr($selected_status); ?>">
@@ -388,7 +388,7 @@ if (!empty($search_query)) {
                                         <td>
                                             <a href="<?php the_permalink(); ?>"><?php the_field('case_citation'); ?></a>
                                             <?php if (get_post_status() === 'draft') : ?>
-                                                <span class="badge badge-warning" style="margin-left: 5px;">Draft</span>
+                                                <span class="badge badge-warning">Draft</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
@@ -434,7 +434,7 @@ if (!empty($search_query)) {
                     </div>
 
                     <!-- Pagination -->
-                    <div class="cases-pagination" style="margin: 30px 0;">
+                    <div class="cases-pagination">
                         <?php
                         $pagination_args = array(
                             'total' => $cases_query->max_num_pages,

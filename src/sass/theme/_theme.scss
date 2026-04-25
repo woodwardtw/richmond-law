@@ -417,6 +417,39 @@ article {
   border-radius: 0;
 }
 
+/*bulk cases*/
+.cases-count {
+  margin: 20px 0; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.cases-pagination{
+  margin: 30px 0;
+}
+
+label[for="status"],label[for="post_status"],label[for="case_term"], label[for="search"] {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.cases-count form, .cases-count p {
+  margin: 0;
+}
+
+.badge-warning .badge{
+  margin-left: 5px;
+}
+
+.cases-filters {
+  margin: 30px 0; 
+  padding: 20px; 
+  background: #f5f5f5; 
+  border-radius: 5px;
+}
+
 @media only screen and (max-width: 800px) 
  {
  	article {
