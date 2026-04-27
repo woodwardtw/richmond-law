@@ -22,7 +22,7 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 <?php else : ?>
 	<div class="col-md-3 widget-area" id="right-sidebar">
 		<a class="img-link fluid" href="https://law.richmond.edu/">
-			<img src="<?php echo get_template_directory_uri();?>/imgs/2021_school_logo_law.svg" class="img-fluid ur-logo" alt="University of Richmond School of Law.">
+			<img src="<?php echo get_template_directory_uri();?>/imgs/2021_school_logo_law_new.svg" class="img-fluid ur-logo" alt="University of Richmond School of Law.">
 		</a>
 <?php endif; ?>
 <?php dynamic_sidebar( 'right-sidebar' ); ?>
