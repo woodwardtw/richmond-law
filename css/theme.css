@@ -15590,7 +15590,8 @@ article {
 
 .site-footer, #wrapper-footer-full {
   background-color: #122851;
-  height: 100px;
+  height: 200px;
+  color: #fff;
 }
 
 #wrapper-footer-full a {
