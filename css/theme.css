@@ -15590,6 +15590,7 @@ article {
 
 .site-footer, #wrapper-footer-full {
   background-color: #122851;
+  color: #fff;
 }
 
 #wrapper-footer-full a {
@@ -15666,7 +15667,6 @@ article {
 
 #wrapper-footer .container-fluid, #wrapper-footer .container-sm, #wrapper-footer .container-md, #wrapper-footer .container-lg, #wrapper-footer .container-xl, #wrapper-footer .container-xxl {
   padding: 0;
-  margin-top: 2rem;
 }
 
 /*cases*/
