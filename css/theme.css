@@ -15591,6 +15591,7 @@ article {
 .site-footer, #wrapper-footer-full {
   background-color: #122851;
   color: #fff;
+  margin-top: 2rem;
 }
 
 #wrapper-footer-full a {
