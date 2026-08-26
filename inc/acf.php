@@ -100,7 +100,7 @@ function ur_law_basic_html($obj,$h_level){
 
 function ur_law_holding($obj,$h_level){
 	$status = get_field('status')->name;
-	$basic_label = "Holding";
+	$basic_label = "Case Information";
 	if($status == "Pending"){
 	    	$basic_label = "Issue";
 	    }
